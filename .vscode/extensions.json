@@ -1,0 +1,22 @@
+{
+    "recommendations": [
+        "platformio.platformio-ide",
+        "danielpinto8zz6.c-cpp-compile-run",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "streetsidesoftware.code-spell-checker",
+        "cschlosser.doxdocgen",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "huizhou.githd",
+        "johnpapa.vscode-peacock",
+        "alefragnani.project-manager",
+        "ms-vscode.vscode-serial-monitor",
+        "phu1237.vs-browser",
+        "vscode-icons-team.vscode-icons",
+        "espressif.esp-idf-extension",
+        "wokwi.wokwi-vscode",
+        "moozzyk.arduino",
+        "vsciot-vscode.vscode-arduino"
+    ]
+}
