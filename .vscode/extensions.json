@@ -17,6 +17,7 @@
         "espressif.esp-idf-extension",
         "wokwi.wokwi-vscode",
         "moozzyk.arduino",
-        "vsciot-vscode.vscode-arduino"
+        "vsciot-vscode.vscode-arduino",
+        "tonybaloney.vscode-pets"
     ]
 }
