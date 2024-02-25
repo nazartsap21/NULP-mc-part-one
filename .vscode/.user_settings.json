@@ -1,0 +1,104 @@
+{
+    "editor.inlineSuggest.suppressSuggestions": true,
+    "extensions.ignoreRecommendations": true,
+    "extensions.autoUpdate": false,
+    "cmake.showOptionsMovedNotification": false,
+    "explorer.confirmDelete": false,
+    "cody.commandCodeLenses": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "EIDE.Repository.UseProxy": false,
+    "EIDE.ARM.GCC.InstallDirectory": "/Applications/ArmGNUToolchain/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi",
+    "sshfs.configs": [
+        {
+            "name": "unnamed"
+        }
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#007e80",
+        "activityBar.background": "#007e80",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#ff80fd",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#007e80",
+        "statusBar.background": "#004c4d",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#007e80",
+        "statusBarItem.remoteBackground": "#004c4d",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#004c4d",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#004c4d99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "settingsSync.ignoredExtensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy"
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "C_Cpp.default.compilerPath": "c:\\Users\\vladi\\.arduinoIDE\\settings.json",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "cSpell.userWords": [
+        "datasheet",
+        "EEPROM",
+        "IRAM",
+        "oled"
+    ],
+    "workbench.colorTheme": "Default Dark+",
+    "files.autoSave": "afterDelay",
+    "git.autofetch": true,
+    "arduino.useArduinoCli": true,
+    "peacock.favoriteColors": [
+        {
+            "name": "Angular Red",
+            "value": "#dd0531"
+        },
+        {
+            "name": "Azure Blue",
+            "value": "#007fff"
+        },
+        {
+            "name": "JavaScript Yellow",
+            "value": "#f9e64f"
+        },
+        {
+            "name": "Mandalorian Blue",
+            "value": "#1857a4"
+        },
+        {
+            "name": "Node Green",
+            "value": "#215732"
+        },
+        {
+            "name": "React Blue",
+            "value": "#61dafb"
+        },
+        {
+            "name": "Something Different",
+            "value": "#832561"
+        },
+        {
+            "name": "Svelte Orange",
+            "value": "#ff3d00"
+        },
+        {
+            "name": "Vue Green",
+            "value": "#42b883"
+        },
+        {
+            "name": "Ard",
+            "value": "#004c4d"
+        }
+    ],
+    "cSpell.enableFiletypes": [
+        "arduino-output",
+        "gitignore"
+    ],
+    "security.workspace.trust.untrustedFiles": "open",
+    "arduino.openPDEFiletype": true,
+    "arduino.enableUSBDetection": true,
+    "arduino.commandPath": "C:\\Program Files\\Arduino IDE\\arduino-cli.exe",
+    "arduino.path": "C:\\Program Files\\Arduino IDE"
+}

@@ -1,3 +1,7 @@
+
+#define __AVR_ATmega2560__
+#include <Arduino.h>
+
 const int buttonPin1 =  53;
 const int buttonPin2 =  51;
 int inByte;

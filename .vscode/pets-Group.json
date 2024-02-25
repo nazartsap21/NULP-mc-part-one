@@ -1,0 +1,92 @@
+[
+  {
+    "color": "yellow",
+    "type": "zappy",
+    "size": "nano",
+    "name": "VladOS"
+  },
+  {
+    "color": "white",
+    "type": "cat",
+    "size": "nano",
+    "name": "Bushak"
+  },
+  {
+    "color": "orange",
+    "type": "turtle",
+    "size": "nano",
+    "name": "Zdan"
+  },
+  {
+    "color": "white",
+    "type": "chicken",
+    "size": "nano",
+    "name": "Ganyk"
+  },
+  {
+    "color": "green",
+    "type": "clippy",
+    "size": "nano",
+    "name": "Davyd"
+  },
+  {
+    "color": "gray",
+    "type": "cockatiel",
+    "size": "nano",
+    "name": "Bordulyak"
+  },
+  {
+    "color": "red",
+    "type": "crab",
+    "size": "nano",
+    "name": "Senkiv"
+  },
+  {
+    "color": "black",
+    "type": "dog",
+    "size": "nano",
+    "name": "Vovk"
+  },
+  {
+    "color": "red",
+    "type": "fox",
+    "size": "nano",
+    "name": "Syrotich"
+  },
+  {
+    "color": "purple",
+    "type": "mod",
+    "size": "nano",
+    "name": "Dubyk"
+  },
+  {
+    "color": "brown",
+    "type": "rat",
+    "size": "nano",
+    "name": "Sydoryk"
+  },
+  {
+    "color": "gray",
+    "type": "rocky",
+    "size": "nano",
+    "name": "Brykaylo"
+  },
+  {
+    "color": "yellow",
+    "type": "rubber-duck",
+    "size": "nano",
+    "name": "Bac"
+  },
+  {
+    "color": "green",
+    "type": "snake",
+    "size": "nano",
+    "name": "Voloshinska"
+  },
+  {
+    "color": "gray",
+    "type": "totoro",
+    "size": "nano",
+    "name": "Kokoshko"
+  }
+]
