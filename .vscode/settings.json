@@ -1,5 +1,6 @@
 {
     "workbench.colorCustomizations": {
+
         "activityBar.activeBackground": "#007e80",
         "activityBar.background": "#007e80",
         "activityBar.foreground": "#e7e7e7",
@@ -20,5 +21,17 @@
     },
     "peacock.color": "#004c4d",
     "files.autoSave": "afterDelay",
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "cSpell.enableFiletypes": [
+        "gitignore"
+    ],
+    "cSpell.words": [
+        "dylib",
+        "smod"
+    ],
+    "workbench.editor.autoLockGroups": {
+        "wokwi.diagram-editor": true
+    },
+    "terminal.explorerKind": "both",
+    "vscode-pets.throwBallWithMouse": false
 }
