@@ -26,4 +26,4 @@ jobs:
           arduino-cli core install ${{ matrix.arduino-platform }}
 
       - name: Compile Sketch
-        run: arduino-cli compile --fqbn ${{ matrix.fqbn }} ./blink/blink.ino
+        run: arduino-cli compile --fqbn ${{ matrix.fqbn }} ./mc_labs/mc_lab_01/mc_lab_01.ino

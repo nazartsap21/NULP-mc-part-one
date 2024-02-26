@@ -25,6 +25,7 @@
         "wayou.vscode-todo-highlight",
         "gruntfuggly.todo-tree",
         "tomoki1207.pdf",
-        "kisstkondoros.vscode-gutter-preview"
+        "kisstkondoros.vscode-gutter-preview",
+        "ritwickdey.liveserver"
     ]
 }
