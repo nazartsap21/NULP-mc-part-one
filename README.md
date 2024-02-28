@@ -12,3 +12,6 @@ https://docs.arduino.cc/
 https://www.arduino.cc/reference/en/
 https://docs.arduino.cc/hardware/mega-2560/
 https://arduino.github.io/arduino-cli/0.35/
+
+Simulation example:
+https://wokwi.com/projects/391005481372432385
