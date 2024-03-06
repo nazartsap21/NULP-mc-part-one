@@ -24,6 +24,9 @@
         "ms-vscode.cpptools-themes",
         "wayou.vscode-todo-highlight",
         "gruntfuggly.todo-tree",
-        "tomoki1207.pdf"
+        "tomoki1207.pdf",
+        "kisstkondoros.vscode-gutter-preview",
+        "ritwickdey.liveserver",
+        "adpyke.codesnap"
     ]
 }
