@@ -20,5 +20,14 @@
     },
     "peacock.color": "#004c4d",
     "files.autoSave": "afterDelay",
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "liveshare.accessibility.accessibilityFeaturesEnabled": "on",
+    "liveshare.allowGuestDebugControl": true,
+    "liveshare.allowGuestTaskControl": true,
+    "liveshare.anonymousGuestApproval": "accept",
+    "liveshare.guestApprovalRequired": false,
+    "liveshare.languages.allowGuestCommandControl": true,
+    "liveshare.launcherClient": "visualStudioCode",
+    "liveshare.notebooks.allowGuestExecuteCells": true,
+    "liveshare.publishWorkspaceInfo": true
 }
