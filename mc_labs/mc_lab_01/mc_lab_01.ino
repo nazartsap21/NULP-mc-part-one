@@ -13,11 +13,10 @@ void setup() {
   pinMode(buttonPin2, INPUT_PULLUP);
   Serial.begin(9600);  //UART0
 }
-
 void loop() {
   if (Serial.available()) {
     inByte = Serial.read();
-    if (inByte == 0xA1) {
+    if (inByte == 0xA1) { 
       //Algorithm 1
       PORTA = 1;
       while (PORTA) {
@@ -34,7 +33,7 @@ void loop() {
       delay(1000);
       PORTA = B00011000;
       delay(1000);
-      PORTA = B00000000;
+      PORTA = 0b11111111;
     }
   }
 

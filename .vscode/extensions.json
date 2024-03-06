@@ -26,6 +26,7 @@
         "gruntfuggly.todo-tree",
         "tomoki1207.pdf",
         "kisstkondoros.vscode-gutter-preview",
-        "ritwickdey.liveserver"
+        "ritwickdey.liveserver",
+        "adpyke.codesnap"
     ]
 }
