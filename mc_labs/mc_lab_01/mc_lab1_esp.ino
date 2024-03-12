@@ -5,15 +5,13 @@
 #include "ESPAsyncWebServer.h"
 
 // Set to true to define Relay as Normally Open (NO)
-#define RELAY_NO    false
-
-// Set number of relays
-#define NUM_RELAYS  1  // Set to 1 for a single relay
-
+#define LED_NO    false
+#define BUTTON_PULLUP true
 #define ESP_WIFI_MODE   2  //WIFI_STA // WIFI_AP //WIFI_AP_STA
 
-// Assign GPIO to the relay
-const int relayGPIO = D4;  // Replace with the desired GPIO pin
+// Assign GPIO to the relay and button
+const int ledGPIO = D4;  // Replace with the desired GPIO pin
+const int btnGPIO = D5;  // Replace with the desired GPIO pin
 
 // Replace with your network credentials
 const char* ssid = "WEMOS_ESP8266";
@@ -129,21 +127,47 @@ void initWiFi()
   server.begin();
 }
 
+IRAM_ATTR void btnIsrHigh()
+{
+  btnChangedFlag = true;
+#if (BUTTON_PULLUP == true)
+  btnReleased = true;
+#else
+  btnPressed = true;
+#endif
+}
+
+IRAM_ATTR void btnIsrLow()
+{
+  btnChangedFlag = true;
+#if (BUTTON_PULLUP == true)
+  btnPressed = true;
+#else
+  btnReleased = true;
+#endif
+}
+
 void setup(){
   Serial.begin(115200);
-  pinMode(relayGPIO, OUTPUT);
-  if(RELAY_NO){
-    digitalWrite(relayGPIO, HIGH);
+  
+  pinMode(btnGPIO, INPUT_PULLUP);
+  // attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrHigh, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrHigh, RISING);
+  attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrLow, FALLING);
+
+  pinMode(ledGPIO, OUTPUT);
+  if(LED_NO){ //! NOTE1
+    digitalWrite(ledGPIO, HIGH);
   }
   else{
-    digitalWrite(relayGPIO, LOW);
+    digitalWrite(ledGPIO, LOW);
   }
   initWiFi();
   
-#if (RELAY_NO == true)
-  digitalWrite(relayGPIO, LOW);
+#if (LED_NO == true) //! NOTE: tell the difference with NOTE1
+  digitalWrite(ledGPIO, LOW);
 #else
-  digitalWrite(relayGPIO, HIGH);
+  digitalWrite(ledGPIO, HIGH);
 #endif
 
 }
@@ -153,15 +177,14 @@ void loop() {
   {
     if (btnPressed)
     {
-      digitalWrite(relayGPIO, LOW);
+      digitalWrite(ledGPIO, LOW);
       btnPressed = false;
     }
     if (btnReleased)
     {
-      digitalWrite(relayGPIO, HIGH);
+      digitalWrite(ledGPIO, HIGH);
       btnReleased = false;
     }
     btnChangedFlag = false;
   }
-  
 }
