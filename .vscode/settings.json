@@ -29,5 +29,6 @@
     "liveshare.languages.allowGuestCommandControl": true,
     "liveshare.launcherClient": "visualStudioCode",
     "liveshare.notebooks.allowGuestExecuteCells": true,
-    "liveshare.publishWorkspaceInfo": true
+    "liveshare.publishWorkspaceInfo": true,
+    "idf.adapterTargetName": "esp32"
 }

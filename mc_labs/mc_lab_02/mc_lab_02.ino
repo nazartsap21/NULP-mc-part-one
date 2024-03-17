@@ -7,7 +7,7 @@ const int buttonPin = 22;   // the number of the button pin
 // with the arduino pin number it is connected to
 const int rs = 5, rw = 6, en = 7, d4 = 8, d5 = 9, d6 = 10, d7 = 11;
 LiquidCrystal lcd(rs, rw, en, d4, d5, d6, d7);
-33
+
 unsigned char pwmOCR_A = 0;
 unsigned char pwmOCR_B = 0;
 bool isCommand = true;
