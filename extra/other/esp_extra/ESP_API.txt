@@ -1,0 +1,52 @@
+Some ESP-specific APIs related to deep sleep, RTC and flash memories are available in the ESP object.
+
+ESP.deepSleep(microseconds, mode) will put the chip into deep sleep. mode is one of WAKE_RF_DEFAULT, WAKE_RFCAL, WAKE_NO_RFCAL, WAKE_RF_DISABLED. (GPIO16 needs to be tied to RST to wake from deepSleep.) The chip can sleep for at most ESP.deepSleepMax() microseconds. If you implement deep sleep with WAKE_RF_DISABLED and require WiFi functionality on wake up, you will need to implement an additional WAKE_RF_DEFAULT before WiFi functionality is available.
+
+ESP.deepSleepInstant(microseconds, mode) works similarly to ESP.deepSleep but sleeps instantly without waiting for WiFi to shutdown.
+
+ESP.rtcUserMemoryWrite(offset, &data, sizeof(data)) and ESP.rtcUserMemoryRead(offset, &data, sizeof(data)) allow data to be stored in and retrieved from the RTC user memory of the chip respectively. offset is measured in blocks of 4 bytes and can range from 0 to 127 blocks (total size of RTC memory is 512 bytes). data should be 4-byte aligned. The stored data can be retained between deep sleep cycles, but might be lost after power cycling the chip. Data stored in the first 32 blocks will be lost after performing an OTA update, because they are used by the Core internals.
+
+ESP.restart() restarts the CPU.
+
+ESP.getResetReason() returns a String containing the last reset reason in human readable format.
+
+ESP.getFreeHeap() returns the free heap size.
+
+ESP.getHeapFragmentation() returns the fragmentation metric (0% is clean, more than ~50% is not harmless)
+
+ESP.getMaxFreeBlockSize() returns the largest contiguous free RAM block in the heap, useful for checking heap fragmentation. NOTE: Maximum malloc() -able block will be smaller due to memory manager overheads.
+
+ESP.getChipId() returns the ESP8266 chip ID as a 32-bit integer.
+
+ESP.getCoreVersion() returns a String containing the core version.
+
+ESP.getSdkVersion() returns the SDK version as a char.
+
+ESP.getCpuFreqMHz() returns the CPU frequency in MHz as an unsigned 8-bit integer.
+
+ESP.getSketchSize() returns the size of the current sketch as an unsigned 32-bit integer.
+
+ESP.getFreeSketchSpace() returns the free sketch space as an unsigned 32-bit integer.
+
+ESP.getSketchMD5() returns a lowercase String containing the MD5 of the current sketch.
+
+ESP.getFlashChipId() returns the flash chip ID as a 32-bit integer.
+
+ESP.getFlashChipSize() returns the flash chip size, in bytes, as seen by the SDK (may be less than actual size).
+
+ESP.getFlashChipRealSize() returns the real chip size, in bytes, based on the flash chip ID.
+
+ESP.getFlashChipSpeed(void) returns the flash chip frequency, in Hz.
+
+ESP.getCycleCount() returns the cpu instruction cycle count since start as an unsigned 32-bit. This is useful for accurate timing of very short actions like bit banging.
+
+ESP.random() should be used to generate true random numbers on the ESP. Returns an unsigned 32-bit integer with the random number. An alternate version is also available that fills an array of arbitrary length. Note that it seems as though the WiFi needs to be enabled to generate entropy for the random numbers, otherwise pseudo-random numbers are used.
+
+ESP.checkFlashCRC() calculates the CRC of the program memory (not including any filesystems) and compares it to the one embedded in the image. If this call returns false then the flash has been corrupted. At that point, you may want to consider trying to send a MQTT message, to start a re-download of the application, blink a LED in an SOS pattern, etc. However, since the flash is known corrupted at this point there is no guarantee the app will be able to perform any of these operations, so in safety critical deployments an immediate shutdown to a fail-safe mode may be indicated.
+
+ESP.getVcc() may be used to measure supply voltage. ESP needs to reconfigure the ADC at startup in order for this feature to be available. Add the following line to the top of your sketch to use getVcc:
+
+ADC_MODE(ADC_VCC);
+TOUT pin has to be disconnected in this mode.
+
+Note that by default ADC is configured to read from TOUT pin using analogRead(A0), and ESP.getVCC() is not available.
