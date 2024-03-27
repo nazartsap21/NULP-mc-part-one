@@ -10,7 +10,8 @@
                 "${workspaceFolder}/**",
                 "C:\\Users\\${username}\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\**",
                 "C:\\Users\\${username}\\AppData\\Local\\Arduino15\\packages\\arduino\\**",
-                "${workspaceFolder}/../**"
+                "${workspaceFolder}/../**",
+                "C:/Users/User/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266WiFi/src"
             ],
             "forcedInclude": [],
             "cStandard": "c11",
