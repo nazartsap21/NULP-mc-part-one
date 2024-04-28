@@ -2,30 +2,50 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
-#define ESP_WIFI_MODE 2  // WIFI_STA // WIFI_AP //WIFI_AP_STA
-#define DELAY_BETWEEN_BUTTONS 300
+#define ESP_WIFI_MODE 1 // WIFI_STA // WIFI_AP //WIFI_AP_STA
+#define DELAY_BETWEEN_BUTTONS 500
 #define DEBOUNCE_DELAY 40
 
-const char *ssid = "WEMOS_ESP8266_Yura";
-const char *password = "IoT";
+const char *ssid = "AsusLyra";
+const char *password = "123456qwerty";
 
-const uint8_t LED1 = D5;
-const uint8_t LED2 = LED_BUILTIN;
-const uint8_t LED3 = D6;
-const uint8_t btnGPIO = D7;
+const uint8_t btnGPIO = D8;
 
-uint8_t ledsArray[] = { LED1, LED2, LED3 };
-uint8_t reverseLedsArray[] = { LED3, LED2, LED1 };
-uint8_t currentLedsArray[3];
-uint8_t ledLen = sizeof(ledsArray) / sizeof(ledsArray[0]);
+typedef struct LED_STRUCT
+{
+  uint8_t GPIO_PIN;
+
+  LED_STRUCT *nextLed;
+  LED_STRUCT *prevLed;
+} LED_STRUCT_t;
+
+LED_STRUCT_t *currentLedPointer = NULL;
+LED_STRUCT_t LED1 = {D5, NULL, NULL};
+LED_STRUCT_t LED2 = {D6, NULL, NULL};
+LED_STRUCT_t LED3 = {D7, NULL, NULL};
+
+void initLedsArray()
+{
+  LED1.nextLed = &LED2;
+  LED1.prevLed = &LED3;
+
+  LED2.nextLed = &LED3;
+  LED2.prevLed = &LED1;
+
+  LED3.nextLed = &LED1;
+  LED3.prevLed = &LED2;
+
+  currentLedPointer = &LED1;
+}
+
 uint32_t timestamp;
 uint32_t lastDebounceTime = 0;
-uint8_t currentLed = 0;
-uint8_t prevLed;
+
 uint32_t buttonCounter = 0;
+
 uint32_t prevButtonCounter = 0;
 
-bool presentState;
+bool lastState = LOW;
 bool btnPressed = false;
 bool siteBtnPressed = false;
 bool msgAboutButtonSended = true;
@@ -190,17 +210,28 @@ const char index_html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
-void notFound(AsyncWebServerRequest *request) {
+void notFound(AsyncWebServerRequest *request)
+{
   request->send(404, "text/plain", "Not found");
 }
 
-void initWiFi() {
+void pinsSetup()
+{
+  pinMode(LED1.GPIO_PIN, OUTPUT);
+  pinMode(LED2.GPIO_PIN, OUTPUT);
+  pinMode(LED3.GPIO_PIN, OUTPUT);
+  pinMode(btnGPIO, INPUT);
+}
 
-  if (ESP_WIFI_MODE == 1) {
+uint8_t initWiFi()
+{
+  if (ESP_WIFI_MODE == 1)
+  {
     WiFi.mode(WIFI_STA);
     // Connect to Wi-Fi network with SSID and password
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
       delay(1000);
       Serial.println("Connecting to WiFi..");
     }
@@ -210,7 +241,9 @@ void initWiFi() {
 
     Serial.print("RRSI: ");
     Serial.println(WiFi.RSSI());
-  } else {  // (ESP_WIFI_MODE == WIFI_AP)
+  }
+  else if (ESP_WIFI_MODE == 2)
+  {
     WiFi.mode(WIFI_AP);
     Serial.println("Setting AP (Access Point)…");
     // Remove the password parameter, if you want the AP (Access Point) to be open
@@ -220,118 +253,108 @@ void initWiFi() {
     Serial.print("AP IP address: ");
     Serial.println(IP);
   }
+  else
+  {
+    WiFi.mode(WIFI_OFF);
+    Serial.println("Wifi of");
+    return -1;
+  }
   // Send web page to client
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/html", index_html);
-  });
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send_P(200, "text/html", index_html); });
 
-  server.on("/on_alg1", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/on_alg1", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
     siteBtnPressed = true;
-    request->send(200, "text/plain", "ok");
-  });
+    request->send(200, "text/plain", "ok"); });
 
-  server.on("/off_alg1", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/off_alg1", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
     siteBtnPressed = false;
-    request->send(200, "text/plain", "ok");
-  });
+    request->send(200, "text/plain", "ok"); });
 
-  server.on("/status_led_1", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", String(digitalRead(LED1)).c_str());
-  });
+  server.on("/status_led_1", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(200, "text/plain", String(digitalRead(LED1.GPIO_PIN)).c_str()); });
 
-  server.on("/status_led_2", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", String(digitalRead(LED2)).c_str());
-  });
+  server.on("/status_led_2", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(200, "text/plain", String(digitalRead(LED2.GPIO_PIN)).c_str()); });
 
-  server.on("/status_led_3", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", String(digitalRead(LED3)).c_str());
-  });
+  server.on("/status_led_3", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(200, "text/plain", String(digitalRead(LED3.GPIO_PIN)).c_str()); });
 
   server.onNotFound(notFound);
   server.begin();
+
+  return 0;
 }
 
-void pinsSetup() {
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
-  pinMode(LED3, OUTPUT);
-  pinMode(btnGPIO, INPUT);
+
+IRAM_ATTR void ISRbtnChange()
+{
+  btnPressed = true;
 }
 
-IRAM_ATTR void ISRbtnChange() {
-  buttonCounter++;
-}
+bool direction = true;
 
-void btnChange() {
-  if (buttonCounter > prevButtonCounter) {
-    if (millis() - lastDebounceTime >= DEBOUNCE_DELAY) {
+void btnChange()
+{
+  if (btnPressed)
+  {
+    if (millis() - lastDebounceTime >= DEBOUNCE_DELAY)
+    {
       lastDebounceTime = millis();
-      prevButtonCounter = buttonCounter;
-      presentState = digitalRead(btnGPIO);
-      if (presentState == LOW) {
-        btnPressed = true;
-      } else {
-        btnPressed = false;
-      }
-
-      if (buttonCounter > 10000) {
-        prevButtonCounter = 0;
-        buttonCounter = 0;
+      bool presentState = digitalRead(btnGPIO);
+      if (lastState != presentState)
+      {
+        lastState = presentState;
+        direction = !direction;
       }
     }
   }
 }
 
-void chechSiteButton() {
-  if (siteBtnPressed) {
+void chechSiteButton()
+{
+  if (siteBtnPressed)
+  {
     btnPressed = true;
     msgAboutButtonSended = true;
-  } else if (!siteBtnPressed && msgAboutButtonSended) {
+  }
+  else if (!siteBtnPressed && msgAboutButtonSended)
+  {
     btnPressed = false;
     msgAboutButtonSended = false;
   }
 }
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
   pinsSetup();
+
+  initLedsArray();
   attachInterrupt(digitalPinToInterrupt(btnGPIO), ISRbtnChange, CHANGE);
   timestamp = millis();
   initWiFi();
 }
 
-void choose_led_array() {
-  if (btnPressed) {
-    for (uint8_t i = 0; i < ledLen; i++) {
-      currentLedsArray[i] = reverseLedsArray[i];
-    }
-  } else {
-    for (uint8_t i = 0; i < ledLen; i++) {
-      currentLedsArray[i] = ledsArray[i];
-    }
+void do_algorithm()
+{
+  if (millis() - timestamp >= DELAY_BETWEEN_BUTTONS)
+  {
+    timestamp = millis();
+
+    digitalWrite(currentLedPointer->prevLed->GPIO_PIN, LOW);
+    digitalWrite(currentLedPointer->GPIO_PIN, HIGH);
+    digitalWrite(currentLedPointer->prevLed->GPIO_PIN, LOW);
+
+    currentLedPointer = direction ? currentLedPointer->nextLed : currentLedPointer->prevLed;
   }
 }
 
-void do_algorithm() {
-  choose_led_array();
-  if (prevLed != 999) {
-    prevLed = currentLed;
-  } else prevLed = 0;
-  digitalWrite(currentLedsArray[currentLed], HIGH);
-  currentLed++;
-  if (currentLed >= ledLen) {
-    currentLed = 0;
-  }
-}
-
-void loop() {
+void loop()
+{
   chechSiteButton();
   btnChange();
-  if (millis() - timestamp >= DELAY_BETWEEN_BUTTONS) {
-    timestamp = millis();
-    for (int i = 0; i < ledLen; i++) {
-      digitalWrite(ledsArray[i], LOW);
-    }
-    do_algorithm();
-  }
+  do_algorithm();
 }

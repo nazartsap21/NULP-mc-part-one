@@ -41,6 +41,33 @@ void setup() {
   DDRG |= 1 << 5;
 }
 
+void webSerialRecvMsg(uint8_t* data, size_t len) {
+  
+  WebSerial.println("Received Data");
+  WebSerial.printf("Millis=%lu\n", millis());
+  
+  String dataStr = "";
+  for (int i = 0; i < len; i++) {
+    dataStr += char(data[i]);
+  }
+  
+  switch (dataStr) {
+    case "IP":
+    case "ip":
+      WebSerial.print(F("IP address: "));
+      WebSerial.println(WiFi.localIP());
+      break;
+    case "freeheap":  
+    case "heap":
+      WebSerial.printf("Free heap=[%u]\n", ESP.getFreeHeap());
+      break;
+    default:
+      WebSerial.println(dataStr);
+      break;
+  }
+  
+  Serial.println(dataStr);
+}
 
 void loop() {
   // read from port 0:
