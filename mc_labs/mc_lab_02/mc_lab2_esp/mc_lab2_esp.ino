@@ -12,15 +12,17 @@ const char *ssid = "WEMOS_ESP8266";
 const char *password = "IoT";
 
 // Assign GPIO to the relay and button
-const int redLedPin = D5;    // Replace with the desired GPIO pin
-const int orangeLedPin = D4; // Replace with the desired GPIO pin
+const int redLedPin = D5;   // Replace with the desired GPIO pin
+const int orangeLedPin = D6; // Replace with the desired GPIO pin
+const int greenLedPin = D7; // Replace with the desired GPIO pin
 
-const int btnGPIO = D3; // Replace with the desired GPIO pin
+const int btnGPIO = D8; // Replace with the desired GPIO pin
 
 bool btnChangedFlag = false;
 bool btnPressed = false;
 bool btnReleased = false;
 bool webChange = false;
+
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 
@@ -243,9 +245,9 @@ void setup()
 {
   Serial.begin(115200);
 
-  pinMode(btnGPIO, INPUT_PULLUP);
+  pinMode(btnGPIO, INPUT);
   // attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrHigh, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrHigh, RISING);
+ // attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrHigh, RISING);
   attachInterrupt(digitalPinToInterrupt(btnGPIO), btnIsrLow, FALLING);
 
   pinMode(redLedPin, OUTPUT);
