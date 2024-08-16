@@ -1,24 +1,32 @@
-name: Lab_01
+name: Cheking of compile Arduino sketch for AVR/AtMega and ESP8266
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   test-matrix:
     strategy:
       matrix:
-        arduino-platform: ["arduino:samd", "arduino:avr"]
+        arduino-platform:
+          - "arduino:avr"
+          - "esp8266:esp8266"
         include:
           - arduino-platform: "arduino:avr"
-            fqbn: "arduino:avr:unowifi"
+            fqbn: "arduino:avr:mega"
+          - arduino-platform: "esp8266:esp8266"
+            fqbn: "esp8266:esp8266:generic"
 
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
 
       - name: Install platform
         run: |
@@ -26,4 +34,4 @@ jobs:
           arduino-cli core install ${{ matrix.arduino-platform }}
 
       - name: Compile Sketch
-        run: arduino-cli compile --fqbn ${{ matrix.fqbn }} ./mc_labs/mc_lab_01/mc_lab_01.ino
+        run: arduino-cli compile --fqbn ${{ matrix.fqbn }} ./mc_labs/mc_lab_01/*.ino
